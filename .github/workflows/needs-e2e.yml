@@ -6,6 +6,9 @@ on:
       needs-e2e:
         description: Whether E2E tests are needed
         value: ${{ jobs.needs-e2e.outputs.needs-e2e }}
+      use-matrix:
+        description: The matrix for the E2E jobs
+        value: '{ index: [0, 1, 2, 3, 4, 5] }'
 
 jobs:
   needs-e2e:

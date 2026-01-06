@@ -344,6 +344,7 @@ jobs:
     uses: ./.github/workflows/e2e-chrome.yml
     with:
       builds-from-run: ${{ needs.identify-builds.outputs.builds-from-run }}
+      use-matrix: ${{ needs.needs-e2e.outputs.use-matrix }}
     secrets:
       PR_COMMENT_TOKEN: ${{ secrets.PR_COMMENT_TOKEN }}
       INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
@@ -360,6 +361,7 @@ jobs:
     uses: ./.github/workflows/e2e-firefox.yml
     with:
       builds-from-run: ${{ needs.identify-builds.outputs.builds-from-run }}
+      use-matrix: ${{ needs.needs-e2e.outputs.use-matrix }}
     secrets:
       INFURA_PROJECT_ID: ${{ secrets.INFURA_PROJECT_ID }}
 
