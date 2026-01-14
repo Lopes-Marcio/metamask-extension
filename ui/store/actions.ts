@@ -515,7 +515,6 @@ export function getSubscriptions(): ThunkAction<
       const subscriptions = await submitRequestToBackground('getSubscriptions');
       return subscriptions;
     } catch (error) {
-      log.error('[getSubscriptions] error', error);
       captureException(
         createSentryError('Failed to fetch subscriptions', error),
       );
@@ -542,7 +541,6 @@ export function getSubscriptionPricing(): ThunkAction<
       );
       return pricing;
     } catch (error) {
-      log.error('[getSubscriptionPricing] error', error);
       captureException(
         createSentryError('Failed to fetch subscription pricing', error),
       );
@@ -569,7 +567,6 @@ export async function getSubscriptionCryptoApprovalAmount(
     );
     return cryptoApprovalAmount;
   } catch (error) {
-    log.error('[getSubscriptionCryptoApprovalAmount] error', error);
     captureException(
       createSentryError(
         'Failed to get subscription crypto approval amount',
@@ -648,7 +645,6 @@ export function cancelSubscription(params: {
     try {
       await submitRequestToBackground('cancelSubscription', [params]);
     } catch (error) {
-      log.error('[cancelSubscription] error', error);
       dispatch(displayWarning(error));
       captureException(
         createSentryError('Failed to cancel subscription', error),
@@ -667,7 +663,6 @@ export function unCancelSubscription(params: {
     try {
       await submitRequestToBackground('unCancelSubscription', [params]);
     } catch (error) {
-      log.error('[unCancelSubscription] error', error);
       const unCancelSubscriptionError = new Error(
         `Failed to uncancel subscription, ${getErrorMessage(error)}`,
       );
@@ -690,7 +685,6 @@ export function getSubscriptionBillingPortalUrl(): ThunkAction<
       );
       return billingPortalUrl;
     } catch (error) {
-      log.error('[getSubscriptionBillingPortalUrl] error', error);
       captureException(
         createSentryError(
           'Failed to get subscription billing portal url',
@@ -8117,7 +8111,6 @@ export async function submitShieldClaim(
     if (error instanceof SubmitClaimError) {
       throw error;
     }
-    log.error('[submitShieldClaim] Failed to submit shield claim:', error);
     throw new SubmitClaimError(ClaimSubmitToastType.Errored);
   }
 }
