@@ -1667,14 +1667,6 @@ describe('MetaMaskController', () => {
       });
     });
 
-    describe('#getApi', () => {
-      it('getState', () => {
-        const getApi = metamaskController.getApi();
-        const state = getApi.getState();
-        expect(state).toStrictEqual(metamaskController.getState());
-      });
-    });
-
     describe('hardware keyrings', () => {
       beforeEach(async () => {
         await metamaskController.createNewVaultAndKeychain('test@123');
