@@ -5123,6 +5123,12 @@
   "perpsFilterStocks": {
     "message": "Stocks"
   },
+  "perpsFilterStocksOnly": {
+    "message": "Stocks"
+  },
+  "perpsFilterCommodities": {
+    "message": "Commodities"
+  },
   "perpsIncreasedPosition": {
     "message": "Increased position"
   },
