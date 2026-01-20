@@ -5108,14 +5108,11 @@
   "perpsEntryPrice": {
     "message": "Entry price"
   },
-  "perpsFundingPayments": {
-    "message": "Funding payments"
-  },
-  "perpsFundingRate": {
-    "message": "Funding Rate"
-  },
   "perpsFilterAll": {
     "message": "All"
+  },
+  "perpsFilterCommodities": {
+    "message": "Commodities"
   },
   "perpsFilterCrypto": {
     "message": "Crypto"
@@ -5126,8 +5123,11 @@
   "perpsFilterStocksOnly": {
     "message": "Stocks"
   },
-  "perpsFilterCommodities": {
-    "message": "Commodities"
+  "perpsFundingPayments": {
+    "message": "Funding payments"
+  },
+  "perpsFundingRate": {
+    "message": "Funding Rate"
   },
   "perpsIncreasedPosition": {
     "message": "Increased position"
@@ -5154,15 +5154,12 @@
     "message": "The market \"$1\" could not be found.",
     "description": "$1 is the market symbol that was not found"
   },
-<<<<<<< HEAD
-=======
   "perpsMarkets": {
     "message": "Markets"
   },
   "perpsNoMarketsFound": {
     "message": "No markets found"
   },
->>>>>>> 3a5896c4f8 (feat: layout changes to follow mobile design)
   "perpsOpenInterest": {
     "message": "Open Interest"
   },
@@ -5201,6 +5198,20 @@
   },
   "perpsSize": {
     "message": "Size"
+  "perpsSortFundingRate": {
+    "message": "Funding rate"
+  },
+  "perpsSortOpenInterest": {
+    "message": "Open interest"
+  },
+  "perpsSortPriceChangeHighToLow": {
+    "message": "Price change: high to low"
+  },
+  "perpsSortPriceChangeLowToHigh": {
+    "message": "Price change: low to high"
+  },
+  "perpsSortVolume": {
+    "message": "Volume"
   },
   "perpsStartNewTrade": {
     "message": "Start a new trade"
@@ -5216,21 +5227,6 @@
   },
   "perpsUnrealizedPnl": {
     "message": "Unrealized P&L"
-  },
-  "perpsSortVolume": {
-    "message": "Volume"
-  },
-  "perpsSortPriceChangeHighToLow": {
-    "message": "Price change: high to low"
-  },
-  "perpsSortPriceChangeLowToHigh": {
-    "message": "Price change: low to high"
-  },
-  "perpsSortOpenInterest": {
-    "message": "Open interest"
-  },
-  "perpsSortFundingRate": {
-    "message": "Funding rate"
   },
   "personalAddressDetected": {
     "message": "Personal address detected. Input the token contract address."
