@@ -132,8 +132,10 @@ const HardwareWalletErrorMonitor: React.FC<{ children: ReactNode }> = ({
 
       // Don't show modal for user cancellations (unless forced)
       if (
-        (!skipFilters && (error as any)?.code === ErrorCode.UserRejected) ||
-        (error as any)?.code === ErrorCode.UserCancelled
+        !skipFilters && (
+          (error as any)?.code === ErrorCode.UserRejected ||
+          (error as any)?.code === ErrorCode.UserCancelled
+        )
       ) {
         console.log(LOG_TAG, 'Skipping modal for user cancellation');
         return;
