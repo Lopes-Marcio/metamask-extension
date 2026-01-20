@@ -1,9 +1,9 @@
 import { useCallback, useEffect } from 'react';
+import { ErrorCode, type HardwareWalletError } from '@metamask/hw-wallet-sdk';
 import {
   getConnectionStateFromError,
   createHardwareWalletError,
 } from './errors';
-import { ErrorCode, type HardwareWalletError } from '@metamask/hw-wallet-sdk';
 import { ConnectionState } from './connectionState';
 import { createAdapterForHardwareWalletType } from './adapters/factory';
 import {
@@ -45,8 +45,6 @@ export const useHardwareWalletConnection = ({
 
   const resetAdapterForFreshConnection = useCallback(() => {
     if (refs.isConnectingRef.current || refs.adapterRef.current) {
-      // eslint-disable-next-line no-console
-      console.log('[HardwareWalletConnection] Resetting existing adapter');
       refs.adapterRef.current?.destroy();
       refs.adapterRef.current = null;
     }
@@ -70,12 +68,6 @@ export const useHardwareWalletConnection = ({
         return existingDeviceId;
       }
 
-      // eslint-disable-next-line no-console
-      console.log(
-        '[HardwareWalletConnection]',
-        `Attempting to discover ${targetWalletType} device`,
-      );
-
       try {
         const discoveredId = await getHardwareWalletDeviceId(targetWalletType);
         if (!discoveredId) {
@@ -91,8 +83,6 @@ export const useHardwareWalletConnection = ({
 
         return discoveredId;
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('[HardwareWalletConnection] Discovery failed:', error);
         updateConnectionState(
           getConnectionStateFromError(
             createHardwareWalletError(
@@ -200,9 +190,6 @@ export const useHardwareWalletConnection = ({
       abortSignal?: AbortSignal;
       isLatestAttempt: IsLatestAttempt;
     }) => {
-      // eslint-disable-next-line no-console
-      console.error('[HardwareWalletConnection] error:', error);
-
       if (!isLatestAttempt()) {
         return;
       }
@@ -252,18 +239,13 @@ export const useHardwareWalletConnection = ({
     }
 
     resetAdapterForFreshConnection();
-    const { connectionId, isLatestAttempt } = beginConnectionAttempt();
+    const { isLatestAttempt } = beginConnectionAttempt();
 
     const discoveredDeviceId = await resolveOrDiscoverDeviceId(effectiveType);
     if (!discoveredDeviceId) {
       return;
     }
 
-    // eslint-disable-next-line no-console
-    console.log(
-      '[HardwareWalletConnection]',
-      `Connecting to ${effectiveType} device: ${discoveredDeviceId} (ID: ${connectionId})`,
-    );
     setConnectingStateForDevice({ abortSignal, deviceId: discoveredDeviceId });
 
     try {
@@ -329,18 +311,14 @@ export const useHardwareWalletConnection = ({
 
   const ensureDeviceReady = useCallback(
     async (targetDeviceId?: string): Promise<boolean> => {
-      const effectiveDeviceId = targetDeviceId || refs.deviceIdRef.current;
+      let effectiveDeviceId = targetDeviceId || refs.deviceIdRef.current;
       const abortSignal = refs.abortControllerRef.current?.signal;
 
       if (abortSignal?.aborted) {
-        // eslint-disable-next-line no-console
-        console.log('[HardwareWalletConnection] ensureDeviceReady aborted');
         return false;
       }
 
       if (!refs.adapterRef.current?.isConnected()) {
-        // eslint-disable-next-line no-console
-        console.log('[HardwareWalletConnection] Not connected, connecting');
         const currentWalletType = refs.walletTypeRef.current;
 
         if (!currentWalletType) {
@@ -353,12 +331,9 @@ export const useHardwareWalletConnection = ({
             setDeviceId(effectiveDeviceId);
           }
           await connect();
+          // Update effectiveDeviceId to use newly discovered device ID if connect() found one
+          effectiveDeviceId = refs.deviceIdRef.current;
         } catch (error) {
-          // eslint-disable-next-line no-console
-          console.error(
-            '[HardwareWalletConnection] connect failed in ensureDeviceReady',
-            error,
-          );
           return false;
         }
       }
@@ -368,21 +343,11 @@ export const useHardwareWalletConnection = ({
         if (adapter?.ensureDeviceReady && effectiveDeviceId) {
           try {
             const result = await adapter.ensureDeviceReady(effectiveDeviceId);
-            // eslint-disable-next-line no-console
-            console.log(
-              '[HardwareWalletConnection] ensureDeviceReady:',
-              result,
-            );
             if (result) {
               updateConnectionState(ConnectionState.ready());
             }
             return result;
           } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error(
-              '[HardwareWalletConnection] verifyDeviceReady',
-              error,
-            );
             if (error && typeof error === 'object' && 'code' in error) {
               updateConnectionState(
                 getConnectionStateFromError(error as HardwareWalletError),
