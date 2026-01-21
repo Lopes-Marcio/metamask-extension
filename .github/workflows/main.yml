@@ -644,7 +644,7 @@ jobs:
 
   all-jobs-completed-locales:
     name: All jobs completed (locales-only)
-    if: ${{ needs.get-requirements.outputs.locales-only == 'true' }}
+    if: ${{ 1 || needs.get-requirements.outputs.locales-only == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 2
     needs:
