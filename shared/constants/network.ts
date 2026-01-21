@@ -1681,7 +1681,7 @@ export const FEATURED_RPCS: AddNetworkFields[] = [
       },
     ],
     defaultRpcEndpointIndex: 0,
-    blockExplorerUrls: ['https://megaeth.blockscout.com/'],
+    blockExplorerUrls: ['https://megaeth.blockscout.com'],
     defaultBlockExplorerUrlIndex: 0,
   },
 ];
