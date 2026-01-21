@@ -101,27 +101,9 @@ jobs:
     needs:
       - prep-deps
       - get-requirements
-    if: ${{ needs.get-requirements.outputs.needs-lint == 'true' }}
     uses: ./.github/workflows/test-lint.yml
-
-  test-circular-deps:
-    name: Test circular deps
-    needs:
-      - get-requirements
-      - prep-deps
-    if: ${{ needs.get-requirements.outputs.needs-lint == 'true' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - name: Checkout and setup environment
-        uses: MetaMask/action-checkout-and-setup@v1
-        with:
-          is-high-risk-environment: false
-          skip-allow-scripts: true
-          use-yarn-hydrate: true
-
-      - name: Check circular dependencies
-        run: yarn circular-deps:check
+    with:
+      needs-lint: ${{ needs.get-requirements.outputs.needs-lint }}
 
   repository-health-checks:
     needs:
@@ -310,8 +292,9 @@ jobs:
     needs:
       - get-requirements
       - prep-deps
-    if: ${{ needs.get-requirements.outputs.needs-unit-and-integration == 'true' }}
     uses: ./.github/workflows/run-tests.yml
+    with:
+      needs-unit-and-integration: ${{ needs.get-requirements.outputs.needs-unit-and-integration }}
 
   bundle-size:
     needs:

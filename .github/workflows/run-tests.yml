@@ -2,6 +2,11 @@ name: Run tests
 
 on:
   workflow_call:
+    inputs:
+      needs-unit-and-integration:
+        description: Whether unit and integration tests are needed
+        type: boolean
+        required: true
     outputs:
       current-coverage:
         description: Current coverage
@@ -14,6 +19,7 @@ jobs:
   test-unit:
     name: Unit tests
     runs-on: ubuntu-latest
+    if: ${{ inputs.needs-unit-and-integration == 'true' }}
     timeout-minutes: 30
     strategy:
       matrix:
@@ -40,6 +46,7 @@ jobs:
   test-webpack:
     name: Webpack tests
     runs-on: ubuntu-latest
+    if: ${{ inputs.needs-unit-and-integration == 'true' }}
     timeout-minutes: 30
     steps:
       - name: Checkout and setup environment
@@ -63,6 +70,7 @@ jobs:
   test-integration:
     name: Integration tests
     runs-on: ubuntu-latest
+    if: ${{ inputs.needs-unit-and-integration == 'true' }}
     timeout-minutes: 30
     steps:
       - name: Checkout and setup environment
@@ -85,7 +93,7 @@ jobs:
 
   report-coverage:
     name: Report coverage
-    if: ${{ github.event_name != 'merge_group' }} # Skip this job for the Merge Queue
+    if: ${{ github.event_name != 'merge_group' && inputs.needs-unit-and-integration == 'true' }} # Skip this job for the Merge Queue
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs:

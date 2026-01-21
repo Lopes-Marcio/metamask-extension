@@ -2,11 +2,17 @@ name: Test lint
 
 on:
   workflow_call:
+    inputs:
+      needs-lint:
+        description: Whether lint job is needed
+        type: boolean
+        required: true
 
 jobs:
   test-lint:
     name: Test lint
     runs-on: ubuntu-latest
+    if: ${{ inputs.needs-lint == 'true' }}
     timeout-minutes: 30
     steps:
       - name: Checkout and setup environment
@@ -21,3 +27,6 @@ jobs:
 
       - name: Verify locales
         run: yarn verify-locales --quiet
+
+      - name: Check circular dependencies
+        run: yarn circular-deps:check
