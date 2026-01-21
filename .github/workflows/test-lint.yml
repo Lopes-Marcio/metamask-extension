@@ -12,10 +12,12 @@ jobs:
   test-lint:
     name: Test lint
     runs-on: ubuntu-latest
-    if: ${{ inputs.needs-lint == 'true' }}
     timeout-minutes: 30
     steps:
+      - run: echo 'hi'
+
       - name: Checkout and setup environment
+        if: ${{ inputs.needs-lint == 'true' }}
         uses: MetaMask/action-checkout-and-setup@v1
         with:
           is-high-risk-environment: false
@@ -23,10 +25,13 @@ jobs:
           use-yarn-hydrate: true
 
       - name: Lint
+        if: ${{ inputs.needs-lint == 'true' }}
         run: yarn lint
 
       - name: Verify locales
+        if: ${{ inputs.needs-lint == 'true' }}
         run: yarn verify-locales --quiet
 
       - name: Check circular dependencies
+        if: ${{ inputs.needs-lint == 'true' }}
         run: yarn circular-deps:check
